@@ -14,5 +14,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = 'TriplePostLocal'
+rootProject.name = 'KingPost'
 include ':app'

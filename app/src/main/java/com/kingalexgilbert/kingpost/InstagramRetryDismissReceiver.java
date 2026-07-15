@@ -1,4 +1,4 @@
-package com.kingalexgilbert.triplepostlocal;
+package com.kingalexgilbert.kingpost;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

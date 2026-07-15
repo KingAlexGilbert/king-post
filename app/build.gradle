@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace 'com.kingalexgilbert.triplepostlocal'
+    namespace 'com.kingalexgilbert.kingpost'
     compileSdk 37
 
     defaultConfig {
-        applicationId 'com.kingalexgilbert.triplepostlocal'
+        applicationId 'com.kingalexgilbert.kingpost'
         minSdk 23
         targetSdk 37
         versionCode 1

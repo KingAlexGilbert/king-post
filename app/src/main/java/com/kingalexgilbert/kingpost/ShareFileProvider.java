@@ -1,4 +1,4 @@
-package com.kingalexgilbert.triplepostlocal;
+package com.kingalexgilbert.kingpost;
 
 import android.content.ContentProvider;
 import android.content.ContentValues;

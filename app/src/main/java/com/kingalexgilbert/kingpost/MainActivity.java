@@ -1,4 +1,4 @@
-package com.kingalexgilbert.triplepostlocal;
+package com.kingalexgilbert.kingpost;
 
 import android.Manifest;
 import android.app.Activity;
@@ -50,12 +50,12 @@ public class MainActivity extends Activity {
     private static final int REQUEST_POST_NOTIFICATIONS = 1002;
 
     static final String ACTION_RETRY_INSTAGRAM =
-            "com.kingalexgilbert.triplepostlocal.action.RETRY_INSTAGRAM";
+            "com.kingalexgilbert.kingpost.action.RETRY_INSTAGRAM";
     static final String ACTION_DISMISS_INSTAGRAM_RETRY =
-            "com.kingalexgilbert.triplepostlocal.action.DISMISS_INSTAGRAM_RETRY";
+            "com.kingalexgilbert.kingpost.action.DISMISS_INSTAGRAM_RETRY";
     static final String INSTAGRAM_RETRY_CHANNEL_ID = "instagram_retry";
     static final int INSTAGRAM_RETRY_NOTIFICATION_ID = 3101;
-    private static final String PREFS = "triplepost_local_prefs";
+    private static final String PREFS = "kingpost_prefs";
     private static final String KEY_VIDEO_URI = "video_uri";
     private static final String KEY_VIDEO_NAME = "video_name";
     private static final String KEY_CAPTION = "caption";
