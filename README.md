@@ -20,7 +20,7 @@ Feel free to test it out, play around with it, and modify it. I hope you enjoy i
 
 <img src="screenshots/posting-section.png" alt="King Post platform posting section" width="250">
 
-### Instagram Retry  Notification
+### Instagram Retry Notification
 
 <img src="screenshots/instagram-retry-notification.png" alt="King Post Instagram retry notification" width="250">
 
@@ -29,9 +29,17 @@ Feel free to test it out, play around with it, and modify it. I hope you enjoy i
 - Share one selected video to YouTube, TikTok, and Instagram
 - Copy and reuse the same caption across platforms
 - Preview the selected video before sharing
-- Track which platforms have already been opened
+- Track which platform apps have already been opened
 - Share to other compatible Android apps
 - Local-first operation with no King Post account or server upload
+
+### YouTube Demo
+
+[![King Post Android Video Sharing App Demo](screenshots/king-post-thumbnail.png)](https://youtube.com/shorts/wG4YU_WwDek)
+
+Watch the official King Post walkthrough demo:
+
+[King Post – Android Video Sharing App Demo](https://youtube.com/shorts/wG4YU_WwDek)
 
 ## Privacy
 
