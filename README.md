@@ -6,16 +6,30 @@ It uses Android's built-in sharing system to send your selected video to each pl
 
 The project was developed with AI-assisted coding and packaging help, then manually tested, debugged, and polished to give it that human touch.
 
-Feel free to test it out, play around with it, and modify it. I Hope you enjoy it!
+Feel free to test it out, play around with it, and modify it. I hope you enjoy it!
 
 **Made by: King Alex Gilbert**
+
+## Screenshots
+
+### Main UI
+
+<img src="screenshots/king-post-ui.png" alt="King Post main interface" width="250">
+
+### Posting Section
+
+<img src="screenshots/posting-section.png" alt="King Post platform posting section" width="250">
+
+### Instagram Retry  Notification
+
+<img src="screenshots/instagram-retry-notification.png" alt="King Post Instagram retry notification" width="250">
 
 ## Features
 
 - Share one selected video to YouTube, TikTok, and Instagram
 - Copy and reuse the same caption across platforms
 - Preview the selected video before sharing
-- Track which platforms have already been shared to
+- Track which platforms have already been opened
 - Share to other compatible Android apps
 - Local-first operation with no King Post account or server upload
 
