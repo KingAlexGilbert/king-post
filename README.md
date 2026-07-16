@@ -1,16 +1,29 @@
 # King Post
 
-King Post is a lightweight local-first Android app that helps you share videos to YouTube, TikTok, and Instagram Reels.
+King Post is a lightweight, local-first Android app that helps you share videos to YouTube, TikTok, and Instagram Reels.
 
 It uses Android's built-in sharing system to send your selected video to each platform individually, bringing you directly to the platform's editing or upload screen.
 
-King Post does not upload your videos to its own servers, and all preparation is performed locally on your device.
-
 The project was developed with AI-assisted coding and packaging help, then manually tested, debugged, and polished to give it that human touch.
 
-Feel free to test it out, play around with it, and modify it. Hope you enjoy it!
+Feel free to test it out, play around with it, and modify it. I Hope you enjoy it!
 
 **Made by: King Alex Gilbert**
+
+## Features
+
+- Share one selected video to YouTube, TikTok, and Instagram
+- Copy and reuse the same caption across platforms
+- Preview the selected video before sharing
+- Track which platforms have already been shared to
+- Share to other compatible Android apps
+- Local-first operation with no King Post account or server upload
+
+## Privacy
+
+King Post does not collect personal information, require an account, display ads, or upload videos to its own servers.
+
+The app only accesses videos selected by the user and may temporarily prepare cached copies when required for Android sharing.
 
 ## Limitations
 
