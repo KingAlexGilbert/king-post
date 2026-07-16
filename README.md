@@ -33,7 +33,7 @@ Feel free to test it out, play around with it, and modify it. I hope you enjoy i
 - Share to other compatible Android apps
 - Local-first operation with no King Post account or server upload
 
-### YouTube Demo
+## YouTube Demo
 
 [![King Post Android Video Sharing App Demo](screenshots/king-post-thumbnail.png)](https://youtube.com/shorts/wG4YU_WwDek)
 
@@ -83,6 +83,12 @@ King Post requires the regular YouTube app. YouTube Studio does not accept video
 King Post includes a separate button for sharing videos with apps that are not specifically listed above.
 
 These apps have not been individually tested, so compatibility and functionality cannot be guaranteed.
+
+## Requirements
+
+- Android 6.0 or later
+- The corresponding platform apps installed for direct sharing
+- Enough available storage to prepare temporary video copies
 
 ## Downloads
 
