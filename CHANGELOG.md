@@ -1,1 +1,1 @@
-### v1.0.0 - Inital Release
+### v1.0.0 - Initial Release
