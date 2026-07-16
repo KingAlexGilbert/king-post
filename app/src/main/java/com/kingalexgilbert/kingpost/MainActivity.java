@@ -1,4 +1,7 @@
 package com.kingalexgilbert.kingpost;
+import android.view.inputmethod.InputMethodManager;
+import android.view.MotionEvent;
+import android.graphics.Rect;
 
 import android.Manifest;
 import android.app.Activity;
@@ -89,9 +92,9 @@ public class MainActivity extends Activity {
     private static final Platform YOUTUBE = new Platform(
             "YouTube",
             KEY_YOUTUBE_OPENED,
-            Arrays.asList("com.google.android.youtube", "com.google.android.apps.youtube.creator"),
+            Collections.singletonList("com.google.android.youtube"),
             Collections.singletonList("youtube"),
-            "YouTube or YouTube Studio is not installed."
+            "The regular YouTube app is not installed."
     );
 
     private final ExecutorService ioExecutor = Executors.newSingleThreadExecutor();
@@ -101,6 +104,7 @@ public class MainActivity extends Activity {
     private String selectedVideoName = "Selected video";
     private int thumbnailRequestId = 0;
     private int tiktokShareRequestId = 0;
+    private int youtubeShareRequestId = 0;
     private boolean pendingInstagramShareAfterPermission = false;
 
     private ImageView videoThumbnail;
@@ -190,6 +194,8 @@ public class MainActivity extends Activity {
     }
 
     private void wireActions() {
+        captionInput.setOnFocusChangeListener((view, hasFocus) -> captionInput.setCursorVisible(hasFocus));
+
         findViewById(R.id.selectVideoButton).setOnClickListener(v -> openVideoPicker());
         clearVideoButton.setOnClickListener(v -> clearSelectedVideo());
         previewButton.setOnClickListener(v -> openVideoPreview());
@@ -214,7 +220,7 @@ public class MainActivity extends Activity {
 
         instagramButton.setOnClickListener(v -> beginInstagramShare());
         tiktokButton.setOnClickListener(v -> shareToTikTokFromCache());
-        youtubeButton.setOnClickListener(v -> shareToPlatform(YOUTUBE));
+        youtubeButton.setOnClickListener(v -> shareToYouTubeFromCache());
         otherAppButton.setOnClickListener(v -> shareUsingChooser());
 
         findViewById(R.id.resetProgressButton).setOnClickListener(v -> {
@@ -227,6 +233,40 @@ public class MainActivity extends Activity {
             Toast.makeText(this, "Opened checkmarks reset", Toast.LENGTH_SHORT).show();
         });
     }
+
+    @Override
+        public boolean dispatchTouchEvent(MotionEvent event) {
+            if (event != null
+                    && event.getAction() == MotionEvent.ACTION_DOWN
+                    && captionInput != null
+                    && captionInput.hasFocus()) {
+                Rect captionBounds = new Rect();
+                boolean captionIsVisible = captionInput.getGlobalVisibleRect(captionBounds);
+                int touchX = Math.round(event.getRawX());
+                int touchY = Math.round(event.getRawY());
+
+                if (!captionIsVisible || !captionBounds.contains(touchX, touchY)) {
+                    dismissCaptionInput();
+                }
+            }
+
+            return super.dispatchTouchEvent(event);
+        }
+
+        private void dismissCaptionInput() {
+            if (captionInput == null) {
+                return;
+            }
+
+            InputMethodManager keyboard =
+                    (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            if (keyboard != null) {
+                keyboard.hideSoftInputFromWindow(captionInput.getWindowToken(), 0);
+            }
+
+            captionInput.clearFocus();
+            captionInput.setCursorVisible(false);
+        }
 
     private void openVideoPreview() {
         if (!ensureVideoSelected()) {
@@ -287,6 +327,7 @@ public class MainActivity extends Activity {
         Uri previousVideoUri = selectedVideoUri;
         selectedVideoUri = uri;
         tiktokShareRequestId++;
+        youtubeShareRequestId++;
         if (previousVideoUri != null && !previousVideoUri.equals(uri)) {
             releasePersistedVideoPermission(previousVideoUri);
         }
@@ -445,6 +486,7 @@ public class MainActivity extends Activity {
         selectedVideoName = "Selected video";
         thumbnailRequestId++;
         tiktokShareRequestId++;
+        youtubeShareRequestId++;
 
         showNoThumbnail("No video selected");
         videoName.setText("No video selected");
@@ -461,6 +503,7 @@ public class MainActivity extends Activity {
 
         releasePersistedVideoPermission(videoUriToRelease);
         setTikTokPreparing(false);
+        setYouTubePreparing(false);
         updateShareButtons();
         updateStatuses();
         clearShareCache(true);
@@ -496,6 +539,7 @@ public class MainActivity extends Activity {
         selectedVideoName = "Selected video";
         thumbnailRequestId++;
         tiktokShareRequestId++;
+        youtubeShareRequestId++;
         showNoThumbnail("No video selected");
         videoName.setText("The saved video is no longer available. Choose it again.");
         preferences.edit().remove(KEY_VIDEO_URI).remove(KEY_VIDEO_NAME).apply();
@@ -503,6 +547,7 @@ public class MainActivity extends Activity {
         cancelInstagramRetryNotification(this);
         clearShareCache();
         setTikTokPreparing(false);
+        setYouTubePreparing(false);
         updateShareButtons();
 
         if (showMessage) {
@@ -724,6 +769,102 @@ public class MainActivity extends Activity {
             showPlatformWarning("Android could not open " + platform.displayName + " for this video.");
         }
     }
+
+    
+
+    private void shareToYouTubeFromCache() {
+            if (!ensureVideoSelected()) {
+                return;
+            }
+
+            final String packageName = "com.google.android.youtube";
+            if (findFirstInstalledPackage(Collections.singletonList(packageName)) == null) {
+                showPlatformWarning(
+                        "The regular YouTube app is required to receive shared videos."
+                );
+                return;
+            }
+
+            copyCaptionSilently();
+            clearPlatformWarning();
+            setYouTubePreparing(true);
+            Toast.makeText(this, "Preparing video...", Toast.LENGTH_SHORT).show();
+
+            final Uri sourceUri = selectedVideoUri;
+            final String sourceName = selectedVideoName;
+            final int shareRequestId = ++youtubeShareRequestId;
+
+            ioExecutor.execute(() -> {
+                try {
+                    File cachedVideo = copyVideoToShareCache(sourceUri, sourceName);
+                    Uri sharedUri = ShareFileProvider.uriForFile(this, cachedVideo);
+
+                    runOnUiThread(() -> {
+                        if (isFinishing() || isDestroyed()) {
+                            return;
+                        }
+                        if (shareRequestId != youtubeShareRequestId
+                                || selectedVideoUri == null
+                                || !sourceUri.equals(selectedVideoUri)) {
+                            return;
+                        }
+
+                        setYouTubePreparing(false);
+
+                        // Do not pre-reject YouTube with resolveActivity or
+                        // queryIntentActivities. Some YouTube builds accept the video
+                        // even when Android's compatibility query reports no handler.
+                        Intent targetedIntent = createVideoShareIntent(
+                                sharedUri,
+                                cachedVideo.getName()
+                        );
+                        targetedIntent.setType("video/*");
+                        targetedIntent.setPackage(packageName);
+
+                        try {
+                            grantUriPermission(
+                                    packageName,
+                                    sharedUri,
+                                    Intent.FLAG_GRANT_READ_URI_PERMISSION
+                            );
+                            startActivity(targetedIntent);
+                            clearPlatformWarning();
+                            markOpened(KEY_YOUTUBE_OPENED);
+                            Toast.makeText(
+                                    this,
+                                    "Caption copied - opening YouTube.",
+                                    Toast.LENGTH_LONG
+                            ).show();
+                        } catch (ActivityNotFoundException exception) {
+                            showPlatformWarning(
+                                    "The regular YouTube app is installed, but Android "
+                                            + "could not open its video upload screen."
+                            );
+                        } catch (SecurityException exception) {
+                            showPlatformWarning(
+                                    "YouTube could not read King Post's temporary video copy."
+                            );
+                        } catch (RuntimeException exception) {
+                            showPlatformWarning(
+                                    "Android could not open YouTube for this video."
+                            );
+                        }
+                    });
+                } catch (IOException | RuntimeException exception) {
+                    runOnUiThread(() -> {
+                        if (!isFinishing()
+                                && !isDestroyed()
+                                && shareRequestId == youtubeShareRequestId) {
+                            setYouTubePreparing(false);
+                            showPlatformWarning(
+                                    "The video could not be prepared for YouTube. "
+                                            + "Choose it again and retry."
+                            );
+                        }
+                    });
+                }
+            });
+        }
 
     private void shareToTikTokFromCache() {
         if (!ensureVideoSelected()) {
@@ -1049,6 +1190,12 @@ public class MainActivity extends Activity {
         tiktokButton.setText(preparing ? "Preparing video..." : "TikTok");
     }
 
+    private void setYouTubePreparing(boolean preparing) {
+        youtubeButton.setEnabled(!preparing && selectedVideoUri != null);
+        youtubeButton.setText(preparing ? "Preparing video..." : "YouTube");
+    }
+
+
     private void clearShareCache() {
         clearShareCache(false);
     }
@@ -1115,6 +1262,8 @@ public class MainActivity extends Activity {
     @Override
     protected void onDestroy() {
         thumbnailRequestId++;
+        tiktokShareRequestId++;
+        youtubeShareRequestId++;
         ioExecutor.shutdownNow();
         super.onDestroy();
     }

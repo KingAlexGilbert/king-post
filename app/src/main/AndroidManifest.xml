@@ -13,8 +13,7 @@
     <package android:name="com.ss.android.ugc.tiktok.lite" />
     <package android:name="com.tiktok.lite.go" />
     <package android:name="com.google.android.youtube" />
-    <package android:name="com.google.android.apps.youtube.creator" />
-    <intent>
+<intent>
         <action android:name="android.intent.action.SEND" />
         <data android:mimeType="video/*" />
     </intent>
