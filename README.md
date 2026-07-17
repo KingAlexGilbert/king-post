@@ -1,4 +1,8 @@
-# King Post
+<p align="center">
+  <img src="docs/images/app-icon.png" width="128" alt="King Post app icon">
+</p>
+
+<h1 align="center">King Post</h1>
 
 King Post is a lightweight, local-first Android app that helps you share videos to YouTube, TikTok, and Instagram Reels.
 
