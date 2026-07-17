@@ -341,16 +341,8 @@
             <Button android:id="@+id/youtubeButton" android:layout_width="match_parent" android:layout_height="54dp" android:layout_marginTop="8dp" android:background="@drawable/bg_button" android:drawableStart="@drawable/ic_social_youtube" android:drawablePadding="14dp" android:gravity="start|center_vertical" android:paddingStart="16dp" android:paddingEnd="18dp" android:text="YouTube" android:textAllCaps="false" android:textColor="@color/accent" android:textSize="17sp" android:textStyle="bold"/>
             <CheckBox android:id="@+id/youtubeStatus" android:layout_width="wrap_content" android:layout_height="wrap_content" android:buttonTint="@color/accent" android:clickable="false" android:text="Not opened yet" android:textColor="@color/text_secondary"/>
             <Button android:id="@+id/otherAppButton" android:layout_width="match_parent" android:layout_height="52dp" android:layout_marginTop="10dp" android:background="@drawable/bg_button_secondary" android:drawableStart="@drawable/ic_other_apps" android:drawablePadding="14dp" android:gravity="start|center_vertical" android:paddingStart="16dp" android:paddingEnd="18dp" android:text="Other Apps" android:textAllCaps="false" android:textColor="@color/blue_accent" android:textSize="17sp" android:textStyle="bold"/>
-            <Button android:id="@+id/resetProgressButton" android:layout_width="match_parent" android:layout_height="48dp" android:layout_marginTop="10dp" android:background="@drawable/bg_button_secondary" android:text="Reset opened checkmarks" android:textAllCaps="false" android:textColor="@color/text_secondary"/>
+            <Button android:id="@+id/resetProgressButton" android:layout_width="match_parent" android:layout_height="48dp" android:layout_marginTop="10dp" android:background="@drawable/bg_button_secondary" android:text="Reset opened checkmarks" android:textAllCaps="false" android:textColor="@color/blue_accent"/>
         </LinearLayout>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
-            android:gravity="center"
-            android:text="Local-only helper • No account login • No server upload"
-            android:textColor="#9AA0AA"
-            android:textSize="13sp" />
-    </LinearLayout>
+</LinearLayout>
 </ScrollView>
