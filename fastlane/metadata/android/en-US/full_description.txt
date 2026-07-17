@@ -1,0 +1,13 @@
+King Post is a lightweight, local-first Android app that helps you share one selected video to YouTube, TikTok, Instagram Reels, and other compatible Android apps.
+
+Select and preview a video, prepare a reusable caption, and open each platform's editing or upload screen. King Post tracks which platform apps have already been opened and includes a retry notification for Instagram sharing.
+
+Features:
+• Select and preview a video
+• Copy and reuse one caption across platforms
+• Open YouTube, TikTok, Instagram, or another compatible app
+• Track which platform apps have been opened
+• Retry Instagram sharing from a notification
+• No King Post account, advertisements, subscriptions, analytics, or server uploads
+
+King Post does not automatically publish videos on your behalf. Posting is completed inside the selected platform app. Platform behavior may vary by device, Android version, and installed app version.

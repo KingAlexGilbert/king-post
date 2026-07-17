@@ -1,0 +1,7 @@
+Initial release.
+
+• Select and preview a video
+• Reuse one caption across platform apps
+• Share to YouTube, TikTok, Instagram, and other apps
+• Track opened platform apps
+• Retry Instagram sharing from a notification
